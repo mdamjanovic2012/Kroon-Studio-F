@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode'
 import * as auth from '../actions/auth'
+import * as logout from '../actions/logout'
 
 
 const initialState = {
@@ -8,48 +9,58 @@ const initialState = {
   errors: {},
   currentUser: undefined
 }
+var isLoggedIn = false
+
 
 export default (state=initialState, action) => {
-  switch(action.type) {
-    case auth.LOGIN_SUCCESS:
+    console.log('action type')
+    console.log(action.type)
+    switch(action.type) {
+        case auth.LOGIN_SUCCESS:
+            return {
+                access: {
+                    token: action.payload.token,
+                    ...jwtDecode(action.payload.token)
+                },
+                refresh: {
+                    token: action.payload.token,
+                    ...jwtDecode(action.payload.token)
+                },
+                errors: {},
+                currentUser: action.payload.user
+            }
+        case auth.TOKEN_RECEIVED:
+            return {
+                ...state,
+                access: {
+                    token: action.payload.token,
+                    ...jwtDecode(action.payload.token)
+                },
+                currentUser: action.payload.user
+            }
+        case auth.LOGIN_FAILURE:
+        case auth.TOKEN_FAILURE:
+            return {
+                access: undefined,
+                refresh: undefined,
+                errors: action.payload.response || {'non_field_errors': action.payload.statusText},
+            }
+        case logout.LOGOUT_SUCCESS:
+            return {
+                access: undefined,
+                refresh: undefined,
+                errors: action.payload.response || {'non_field_errors': action.payload.statusText},
+            }
+        default:
+            console.log('IS LOGGED IN: ')
+            console.log(state)
+            return state
+    }
 
-      return {
-        access: {
-          token: action.payload.token,
-          ...jwtDecode(action.payload.token)
-        },
-        refresh: {
-          token: action.payload.token,
-          ...jwtDecode(action.payload.token)
-        },
-        errors: {},
-        currentUser: action.payload.user
-    }
-    case auth.TOKEN_RECEIVED:
-      return {
-        ...state,
-        access: {
-          token: action.payload.token,
-          ...jwtDecode(action.payload.token)
-        },
-          currentUser: action.payload.user
-      }
-    case auth.LOGIN_FAILURE:
-    case auth.TOKEN_FAILURE:
-      return {
-         access: undefined,
-         refresh: undefined,
-         errors: action.payload.response || {'non_field_errors': action.payload.statusText},
-      }
-      default:
-        return state
-    }
 }
 
 export function accessToken(state) {
-  if (state.access) {
     return  state.access.token
-  }
 }
 
 export function isAccessTokenExpired(state) {
@@ -73,7 +84,7 @@ export function isRefreshTokenExpired(state) {
 }
 
 export function isAuthenticated(state) {
-  return !isRefreshTokenExpired(state)
+    return !isRefreshTokenExpired(state)
 }
 
 export function getCurrentUser(state) {
@@ -84,11 +95,13 @@ export function getCurrentUser(state) {
             email: state.currentUser.email
         }
     }
-    return {
+    if (state.access) {
+        return {
             user_id: state.access.user_id,
             username: state.access.username,
             email: state.access.email
         }
+    }
 
 }
 

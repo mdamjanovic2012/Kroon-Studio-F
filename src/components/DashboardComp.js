@@ -7,6 +7,7 @@ import {dashboard} from '../actions/dashboard'
 import {serverMessage} from '../reducers/index'
 import {CardColumns, CardGroup, CardDeck, Container, Media, Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Row, Col } from 'reactstrap';
+import NavbarComp from './Navbar'
 
 
 export default class Dashboard extends Component {
@@ -21,10 +22,13 @@ export default class Dashboard extends Component {
 
     render() {
             function canDeleteArticles(props, ar_user) {
-                //console.log(props)
-                //if (props.current_user.pk == ar_user.pk){
-                //    return <Button>Button</Button>
-                //}
+                if (props.currentUser.user_id == ar_user.pk) {
+                    return (<div>
+                                <Button color="primary">EDIT</Button>{' '}
+                                <Button color="danger">DELETE</Button>
+                            </div>
+                            )
+                }
 
             }
           function createArticless(props) {
@@ -49,6 +53,7 @@ export default class Dashboard extends Component {
 
         return (
             <Container>
+                <NavbarComp/>
                 {createArticless(this.props)}
             </Container>
         )

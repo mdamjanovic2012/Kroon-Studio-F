@@ -8,7 +8,9 @@ import {Route, Switch} from 'react-router'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import dashboard from './containers/Dashboard';
+import Article from './containers/Article'
 import Login from './containers/Login';
+import Logout from './containers/Logout'
 import PrivateRoute from './containers/PrivateRoute';
 import configureStore from './store'
 
@@ -21,7 +23,8 @@ ReactDOM.render((
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/login/" component={Login} />
-        <PrivateRoute path="/" component={dashboard}/>
+        <Route exact path="/logout/" component={Logout}/>
+        <PrivateRoute path="/home/" component={dashboard}/>
       </Switch>
     </ConnectedRouter>
   </Provider>
