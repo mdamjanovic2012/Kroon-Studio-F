@@ -6,7 +6,7 @@ const initialState = {
 
 export default (state=initialState, action) => {
   switch(action.type) {
-    case dashboard.ECHO_SUCCESS:
+    case dashboard.DASHBOARD_SUCCESS:
       return {
         message: action.payload
       }

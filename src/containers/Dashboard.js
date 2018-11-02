@@ -6,14 +6,13 @@ import { connect } from 'react-redux'
 import {dashboard} from '../actions/dashboard'
 import {serverMessage} from '../reducers/index'
 import { Redirect } from 'react-router'
-import {authErrors, isAuthenticated} from '../reducers/index'
+import {authErrors, isAuthenticated, getCurrentUser} from '../reducers/index'
 import DashboardComp from '../components/DashboardComp'
 
 const Dashboard = (props) => {
-  if(!props.isAuthenticated) {
+    if(!props.isAuthenticated) {
      return  <Redirect to='/login/' />
   }
-
   return (
        <DashboardComp {...props}/>
   )
@@ -23,7 +22,8 @@ export default connect(
   state => ({
               message: serverMessage(state),
               errors: authErrors(state),
-              isAuthenticated: isAuthenticated(state)
+              isAuthenticated: isAuthenticated(state),
+                currentUser: getCurrentUser(state)
             }),
   {   fetchMessage: dashboard
   }

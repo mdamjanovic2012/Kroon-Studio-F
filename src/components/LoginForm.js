@@ -20,12 +20,6 @@ export default class LoginForm extends Component {
     });
   }
 
-  //componentDidMount() {
-  //    console.log('MILOSSSS24');
-  //    console.log(this.primaryInput);
-  //  this.primaryInput.focus();
-  //}
-
   onSubmit = (event) => {
     event.preventDefault()
     this.props.onSubmit(this.state.username, this.state.password)

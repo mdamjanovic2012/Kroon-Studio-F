@@ -6,11 +6,13 @@ const initialState = {
   access: undefined,
   refresh: undefined,
   errors: {},
+  currentUser: undefined
 }
 
 export default (state=initialState, action) => {
   switch(action.type) {
     case auth.LOGIN_SUCCESS:
+
       return {
         access: {
           token: action.payload.token,
@@ -20,7 +22,8 @@ export default (state=initialState, action) => {
           token: action.payload.token,
           ...jwtDecode(action.payload.token)
         },
-        errors: {}
+        errors: {},
+        currentUser: action.payload.user
     }
     case auth.TOKEN_RECEIVED:
       return {
@@ -28,7 +31,8 @@ export default (state=initialState, action) => {
         access: {
           token: action.payload.token,
           ...jwtDecode(action.payload.token)
-        }
+        },
+          currentUser: action.payload.user
       }
     case auth.LOGIN_FAILURE:
     case auth.TOKEN_FAILURE:
@@ -37,8 +41,8 @@ export default (state=initialState, action) => {
          refresh: undefined,
          errors: action.payload.response || {'non_field_errors': action.payload.statusText},
       }
-    default:
-      return state
+      default:
+        return state
     }
 }
 
@@ -70,6 +74,22 @@ export function isRefreshTokenExpired(state) {
 
 export function isAuthenticated(state) {
   return !isRefreshTokenExpired(state)
+}
+
+export function getCurrentUser(state) {
+    if (state.currentUser){
+        return {
+            user_id: state.currentUser.user_id,
+            username: state.currentUser.username,
+            email: state.currentUser.email
+        }
+    }
+    return {
+            user_id: state.access.user_id,
+            username: state.access.username,
+            email: state.access.email
+        }
+
 }
 
 export function errors(state) {
