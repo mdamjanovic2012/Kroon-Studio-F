@@ -9,12 +9,9 @@ const initialState = {
   errors: {},
   currentUser: undefined
 }
-var isLoggedIn = false
 
 
 export default (state=initialState, action) => {
-    console.log('action type')
-    console.log(action.type)
     switch(action.type) {
         case auth.LOGIN_SUCCESS:
             return {
@@ -52,14 +49,14 @@ export default (state=initialState, action) => {
                 errors: action.payload.response || {'non_field_errors': action.payload.statusText},
             }
         default:
-            console.log('IS LOGGED IN: ')
-            console.log(state)
             return state
     }
 
 }
 
 export function accessToken(state) {
+    console.log('POZVAN ACCESS')
+    console.log(state)
     return  state.access.token
 }
 

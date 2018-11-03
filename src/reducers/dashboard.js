@@ -5,6 +5,8 @@ const initialState = {
 }
 
 export default (state=initialState, action) => {
+    console.log('TU SAAM2')
+    console.log(state)
   switch(action.type) {
     case dashboard.DASHBOARD_SUCCESS:
       return {

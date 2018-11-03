@@ -10,12 +10,8 @@ import {authErrors, isAuthenticated, getCurrentUser, logoutTokens} from '../redu
 
 
 const Logout = (props) => {
-    console.log('CONTAINER LOGOUT')
-    console.log(props)
-    props.fetchMessage2();
+    props.fetchMessage();
     return <Redirect to='/login/'/>
-
-
 };
 
 export default connect(
@@ -25,6 +21,6 @@ export default connect(
               isAuthenticated: isAuthenticated(state),
               currentUser: getCurrentUser(state)
             }),
-  {   fetchMessage2: logout
+  {   fetchMessage: logout
   }
 )(Logout);

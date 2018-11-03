@@ -21,11 +21,11 @@ export default class Dashboard extends Component {
 
 
     render() {
-            function canDeleteArticles(props, ar_user) {
+            function canDeleteArticles(props, ar_user, ar_id) {
                 if (props.currentUser.user_id == ar_user.pk) {
                     return (<div>
                                 <Button color="primary">EDIT</Button>{' '}
-                                <Button color="danger">DELETE</Button>
+                                <Button href={"/delar/" + ar_id} color="danger">DELETE</Button>
                             </div>
                             )
                 }
@@ -45,7 +45,7 @@ export default class Dashboard extends Component {
 
                         <CardText>{props.message[key].content.substring(0,60)}</CardText>
                         <CardSubtitle>{props.message[key].category_id.title}</CardSubtitle>
-                        {canDeleteArticles(props, props.message[key].created_by_user_id)}
+                        {canDeleteArticles(props, props.message[key].created_by_user_id, props.message[key].id)}
 
                     </CardBody>
                 </Card>)

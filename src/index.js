@@ -7,10 +7,11 @@ import {Route, Switch} from 'react-router'
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import dashboard from './containers/Dashboard';
+import Dashboard from './containers/Dashboard';
 import Article from './containers/Article'
 import Login from './containers/Login';
 import Logout from './containers/Logout'
+import DelArticle from './containers/DelArticle'
 import PrivateRoute from './containers/PrivateRoute';
 import configureStore from './store'
 
@@ -24,7 +25,8 @@ ReactDOM.render((
       <Switch>
         <Route exact path="/login/" component={Login} />
         <Route exact path="/logout/" component={Logout}/>
-        <PrivateRoute path="/home/" component={dashboard}/>
+        <Route exact path="/delar/:id" component={DelArticle}/>
+        <PrivateRoute path="/home/" component={Dashboard}/>
       </Switch>
     </ConnectedRouter>
   </Provider>

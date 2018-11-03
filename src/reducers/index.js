@@ -4,6 +4,7 @@ import auth, * as fromAuth from './auth.js'
 import dashboard, * as fromDashboard from './dashboard.js'
 import article, * as fromArticle from './article.js'
 import logout, * as fromLogout from './logout.js'
+import delar, * as fromDelar from './dalArticle.js'
 
 
 export default combineReducers({
@@ -11,6 +12,7 @@ export default combineReducers({
     article: article,
     dashboard: dashboard,
     logout: logout,
+    delar: delar,
     router: routerReducer
 })
 
@@ -23,7 +25,6 @@ export const refreshToken = state => fromAuth.refreshToken(state.auth);
 export const isRefreshTokenExpired = state => fromAuth.isRefreshTokenExpired(state.auth);
 export const authErrors = state => fromAuth.errors(state.auth);
 export const serverMessage = state => fromDashboard.serverMessage(state.dashboard);
-
 export function withAuth(headers={}) {
   return (state) => ({
     ...headers,
